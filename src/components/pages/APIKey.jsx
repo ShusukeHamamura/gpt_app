@@ -17,9 +17,12 @@ export const APIKey = memo(() => {
   const navigate = useNavigate();
 
   const onClickHome = () => {
-    // showMessage({ title: "APIキーを保存しました", status: "success" });
-    showMessage({ title: "APIキーを設定しました", status: "success" });
-    navigate("/");
+    if (userInfo.userAPIKey == "") {
+      showMessage({ title: "APIキーを入力してください", status: "error" });
+    } else {
+      showMessage({ title: "APIキーを設定しました", status: "success" });
+      navigate("/");
+    }
   };
   return (
     <>

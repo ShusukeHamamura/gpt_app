@@ -13,18 +13,24 @@ import { SpinnerIcon } from "@chakra-ui/icons";
 
 import { APIContext } from "../../providers/APIProvider";
 import { useLocation } from "react-router-dom";
+import { useMessage } from "../hooks/useMessage";
 
 export const ChatGPT = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
   const { userInfo } = useContext(APIContext);
+  const { showMessage } = useMessage();
   const [inputText, setInputText] = useState("");
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
-    setInputText("");
-    const response = await getResponse(inputText);
+    if (userInfo.userAPIKey === "") {
+      showMessage({ title: "APIキーを設定してください", status: "error" });
+    } else {
+      setLoading(true);
+      setInputText("");
+      const response = await getResponse(inputText);
+    }
   };
 
   const onClickEnd = () => {

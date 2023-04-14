@@ -15,21 +15,27 @@ import { SpinnerIcon } from "@chakra-ui/icons";
 
 import { APIContext } from "../../providers/APIProvider";
 import { useLocation } from "react-router-dom";
+import { useMessage } from "../hooks/useMessage";
 
 export const DallE = memo(() => {
   const URL = "https://api.openai.com/v1/images/generations";
   const { userInfo } = useContext(APIContext);
+  const { showMessage } = useMessage();
   const [inputText, setInputText] = useState("");
   const [showTitle, setShowTitle] = useState("");
   const [imgURL, setImgURL] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    setLoading(true);
-    setShowTitle(inputText);
-    setInputText("");
-    setImgURL([]);
-    const response = await getResponse(inputText);
+    if (userInfo.userAPIKey === "") {
+      showMessage({ title: "APIキーを設定してください", status: "error" });
+    } else {
+      setLoading(true);
+      setShowTitle(inputText);
+      setInputText("");
+      setImgURL([]);
+      const response = await getResponse(inputText);
+    }
   };
 
   const getResponse = (message) => {
