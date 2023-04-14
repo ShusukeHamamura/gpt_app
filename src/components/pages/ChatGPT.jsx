@@ -101,8 +101,10 @@ export const ChatGPT = memo(() => {
             );
           })}
           {loading && <SpinnerIcon></SpinnerIcon>}
-          {msg.length === 0 || (
-            <Button onClick={onClickEnd}>会話を終了する</Button>
+          {msg.length === 0 || loading || (
+            <Button onClick={onClickEnd} bg="gray.500" color="white">
+              会話を終了する
+            </Button>
           )}
         </Stack>
       </Flex>

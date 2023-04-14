@@ -10,6 +10,7 @@ import {
 import { memo, useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
+import { FooterLayout } from "../template/FooterLayout";
 
 export const Home = memo(() => {
   const navigate = useNavigate();
@@ -93,6 +94,7 @@ export const Home = memo(() => {
           </Box>
         </WrapItem>
       </Wrap>
+      <FooterLayout />
     </>
   );
 });
