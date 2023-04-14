@@ -15,6 +15,7 @@ import { ArrowForwardIcon, SpinnerIcon } from "@chakra-ui/icons";
 
 export const Home = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
+  const API_KEY = "";
   const [inputText, setInputText] = useState("");
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,8 +39,7 @@ export const Home = memo(() => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization:
-                "Bearer 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",
+              Authorization: `Bearer ${API_KEY}`,
             },
           }
         )
