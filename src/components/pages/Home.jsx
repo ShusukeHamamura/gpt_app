@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Input,
@@ -8,14 +8,14 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
-  Text,
-  Textarea,
 } from "@chakra-ui/react";
-import { ArrowForwardIcon, SpinnerIcon } from "@chakra-ui/icons";
+import { SpinnerIcon } from "@chakra-ui/icons";
+
+import { APIContext } from "../../providers/APIProvider";
 
 export const Home = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
-  const API_KEY = "";
+  const { userInfo, setUserInfo } = useContext(APIContext);
   const [inputText, setInputText] = useState("");
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,6 +24,10 @@ export const Home = memo(() => {
     setLoading(true);
     setInputText("");
     const response = await getResponse(inputText);
+  };
+
+  const onClickEnd = () => {
+    setMsg([]);
   };
 
   const getResponse = (message) => {
@@ -39,7 +43,7 @@ export const Home = memo(() => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${API_KEY}`,
+              Authorization: `Bearer ${userInfo.userAPIKey}`,
             },
           }
         )
@@ -63,8 +67,22 @@ export const Home = memo(() => {
           <InputGroup>
             <Input
               px={2}
+              type="password"
+              placeholder="API KEYを入力してください"
+              value={userInfo.userAPIKey}
+              onChange={(e) => setUserInfo({ userAPIKey: e.target.value })}
+            />
+            <InputRightElement width="4.5rem"></InputRightElement>
+          </InputGroup>
+        </Box>
+      </Flex>
+      <Flex align="center" justify="center">
+        <Box py={3} w={["80%", "70%", "60%", "50%"]}>
+          <InputGroup>
+            <Input
+              px={2}
               type="text"
-              placeholder="send a message ..."
+              placeholder="メッセージを入力"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />
@@ -88,6 +106,9 @@ export const Home = memo(() => {
             );
           })}
           {loading && <SpinnerIcon></SpinnerIcon>}
+          {msg.length === 0 || (
+            <Button onClick={onClickEnd}>会話を終了する</Button>
+          )}
         </Stack>
       </Flex>
     </>
