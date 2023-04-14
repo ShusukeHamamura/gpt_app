@@ -1,116 +1,98 @@
-import { memo, useContext, useEffect, useState } from "react";
-import axios from "axios";
 import {
-  Input,
-  Flex,
-  Button,
+  Badge,
   Box,
-  InputGroup,
-  InputRightElement,
-  Stack,
+  Flex,
+  Image,
+  Wrap,
+  WrapItem,
+  background,
 } from "@chakra-ui/react";
-import { SpinnerIcon } from "@chakra-ui/icons";
-
+import { memo, useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
 
 export const Home = memo(() => {
-  const URL = "https://api.openai.com/v1/chat/completions";
+  const navigate = useNavigate();
   const { userInfo, setUserInfo } = useContext(APIContext);
-  const [inputText, setInputText] = useState("");
-  const [msg, setMsg] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    setInputText("");
-    const response = await getResponse(inputText);
+  const onClickGPT = () => {
+    navigate("/chatgpt");
   };
-
-  const onClickEnd = () => {
-    setMsg([]);
+  const onClickDallE = () => {
+    navigate("/dalle");
   };
-
-  const getResponse = (message) => {
-    setMsg((oldMsg) => [...oldMsg, { role: "user", content: message }]);
-    try {
-      const response = axios
-        .post(
-          URL,
-          {
-            model: "gpt-3.5-turbo",
-            messages: [...msg, { role: "user", content: message }],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${userInfo.userAPIKey}`,
-            },
-          }
-        )
-        .then((res) => {
-          let ans = res.data["choices"][0]["message"]["content"];
-          setMsg((oldMsg) => [...oldMsg, { role: "assistant", content: ans }]);
-          setLoading(false);
-          //   if (res.data["usage"]["total_tokens"] > 3000) {
-          //     msg.shift();
-          //   }
-        });
-    } catch (error) {
-      alert(error);
-    }
-  };
-
   return (
     <>
-      <Flex align="center" justify="center">
-        <Box py={3} w={["80%", "70%", "60%", "50%"]}>
-          <InputGroup>
-            <Input
-              px={2}
-              type="password"
-              placeholder="API KEYを入力してください"
-              value={userInfo.userAPIKey}
-              onChange={(e) => setUserInfo({ userAPIKey: e.target.value })}
-            />
-            <InputRightElement width="4.5rem"></InputRightElement>
-          </InputGroup>
-        </Box>
-      </Flex>
-      <Flex align="center" justify="center">
-        <Box py={3} w={["80%", "70%", "60%", "50%"]}>
-          <InputGroup>
-            <Input
-              px={2}
-              type="text"
-              placeholder="メッセージを入力"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleSubmit}>
-                送信
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </Box>
-      </Flex>
-      <Flex px={6} align="center" justify="center">
-        <Stack spacing={6} py={4} px={4}>
-          {msg.map((ms, index) => {
-            let color = "";
-            ms.role === "user" ? (color = "white") : (color = "gray.100");
-            return (
-              <Box bg={color} key={index}>
-                {ms.content}
+      <Wrap
+        p={{ base: 4, md: 10 }}
+        align="center"
+        justify="center"
+        bg="#000033"
+      >
+        <WrapItem mx="auto">
+          <Box
+            m="auto"
+            maxW="sm"
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            shadow="md"
+            _hover={{ cursor: "pointer", opacity: 0.8 }}
+            onClick={onClickGPT}
+          >
+            <Image src="/images/chatgpt.png" />
+            <Box p={4} bg="white">
+              <Box display="flex" alignItems="baseline">
+                <Badge borderRadius="full" px="2" colorScheme="teal">
+                  ChatGPT
+                </Badge>
+                <Box
+                  color="gray.500"
+                  fontWeight="semibold"
+                  letterSpacing="wide"
+                  fontSize="xs"
+                  textTransform="uppercase"
+                  ml="2"
+                >
+                  対話式AIモデル
+                </Box>
               </Box>
-            );
-          })}
-          {loading && <SpinnerIcon></SpinnerIcon>}
-          {msg.length === 0 || (
-            <Button onClick={onClickEnd}>会話を終了する</Button>
-          )}
-        </Stack>
-      </Flex>
+            </Box>
+          </Box>
+        </WrapItem>
+        <WrapItem>
+          <Box
+            m="auto"
+            maxW="sm"
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            shadow="md"
+            _hover={{ cursor: "pointer", opacity: 0.8 }}
+            onClick={onClickDallE}
+          >
+            <Image src="/images/dalle.png" />
+            <Box p={4} bg="white">
+              <Box display="flex" alignItems="baseline">
+                <Badge borderRadius="full" px="2" colorScheme="teal">
+                  DALL E
+                </Badge>
+                <Box
+                  color="gray.500"
+                  fontWeight="semibold"
+                  letterSpacing="wide"
+                  fontSize="xs"
+                  textTransform="uppercase"
+                  ml="2"
+                >
+                  AIによる画像生成モデル
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </WrapItem>
+      </Wrap>
     </>
   );
 });
