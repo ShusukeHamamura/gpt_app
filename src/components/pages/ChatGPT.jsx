@@ -8,11 +8,10 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
+  Progress,
 } from "@chakra-ui/react";
-import { SpinnerIcon } from "@chakra-ui/icons";
 
 import { APIContext } from "../../providers/APIProvider";
-import { useLocation } from "react-router-dom";
 import { useMessage } from "../hooks/useMessage";
 
 export const ChatGPT = memo(() => {
@@ -106,7 +105,9 @@ export const ChatGPT = memo(() => {
               </Box>
             );
           })}
-          {loading && <SpinnerIcon></SpinnerIcon>}
+          {loading && (
+            <Progress size="sm" isIndeterminate colorScheme="green" />
+          )}
           {msg.length === 0 || loading || (
             <Button onClick={onClickEnd} bg="gray.500" color="white">
               会話を終了する

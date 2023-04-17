@@ -1,25 +1,10 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
 
 export const Footer = memo(() => {
-  const navigate = useNavigate();
-  const onClickHome = () => {
-    navigate("/");
-  };
-  const onClickSetAPIKey = () => {
-    navigate("/apikey");
-  };
-  const onClickChatGPT = () => {
-    navigate("/chatgpt");
-  };
-  const onClickDallE = () => {
-    navigate("/dalle");
-  };
   return (
     <>
       <Flex
-        as="nav"
         bg="teal.500"
         color="gray.50"
         align="center"

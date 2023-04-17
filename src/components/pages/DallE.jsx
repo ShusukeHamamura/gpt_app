@@ -10,11 +10,17 @@ import {
   Stack,
   Text,
   Image,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Wrap,
+  WrapItem,
+  CircularProgress,
 } from "@chakra-ui/react";
-import { SpinnerIcon } from "@chakra-ui/icons";
 
 import { APIContext } from "../../providers/APIProvider";
-import { useLocation } from "react-router-dom";
 import { useMessage } from "../hooks/useMessage";
 
 export const DallE = memo(() => {
@@ -22,6 +28,7 @@ export const DallE = memo(() => {
   const { userInfo } = useContext(APIContext);
   const { showMessage } = useMessage();
   const [inputText, setInputText] = useState("");
+  const [inputNum, setInputNum] = useState(1);
   const [showTitle, setShowTitle] = useState("");
   const [imgURL, setImgURL] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +52,7 @@ export const DallE = memo(() => {
           URL,
           {
             prompt: message,
-            n: 1,
+            n: Number(inputNum),
             size: "1024x1024",
           },
           {
@@ -77,30 +84,57 @@ export const DallE = memo(() => {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleSubmit}>
-                生成
-              </Button>
+            <InputRightElement width="4rem">
+              <NumberInput
+                defaultValue={1}
+                min={1}
+                max={4}
+                value={inputNum}
+                onChange={(value) => setInputNum(value)}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
             </InputRightElement>
           </InputGroup>
         </Box>
+        <Button mx={2} h="2rem" size="sm" onClick={handleSubmit}>
+          生成
+        </Button>
       </Flex>
       <Flex px={6} align="center" justify="center">
         <Stack spacing={6} py={4} px={4}>
           {loading ? (
-            <Text as="b">{`「${showTitle}」についての画像を生成中...`}</Text>
+            <>
+              <Text as="b">{`「${showTitle}」についての画像を生成中...`}</Text>
+              <CircularProgress
+                isIndeterminate
+                color="green.300"
+                align="center"
+                size="120px"
+              />
+            </>
           ) : (
             imgURL.length === 0 || (
               <Text as="b">{`タイトル：「${showTitle}」`}</Text>
             )
           )}
-          {imgURL.map((url, index) => {
-            return (
-              <Box key={index}>
-                <Image src={url.url} />
-              </Box>
-            );
-          })}
+          return (
+          <>
+            <Wrap p={{ base: 4, md: 10 }} align="center" justify="center">
+              {imgURL.map((url, index) => (
+                <WrapItem mx="auto" key={index}>
+                  <Box m="auto" maxW="sm" borderWidth="1px" overflow="hidden">
+                    <Image src={url.url} />
+                  </Box>
+                </WrapItem>
+              ))}
+            </Wrap>
+          </>
+          )
         </Stack>
       </Flex>
     </>

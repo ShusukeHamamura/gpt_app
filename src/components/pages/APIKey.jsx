@@ -39,7 +39,7 @@ export const APIKey = memo(() => {
             <InputRightElement width="4.5rem"></InputRightElement>
           </InputGroup>
         </Box>
-        <Button align="center" justify="center" onClick={onClickHome}>
+        <Button mx={2} align="center" justify="center" onClick={onClickHome}>
           設定
         </Button>
       </Flex>

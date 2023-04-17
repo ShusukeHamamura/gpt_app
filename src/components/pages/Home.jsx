@@ -1,21 +1,12 @@
-import {
-  Badge,
-  Box,
-  Flex,
-  Image,
-  Wrap,
-  WrapItem,
-  background,
-} from "@chakra-ui/react";
-import { memo, useContext, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Badge, Box, Image, Wrap, WrapItem } from "@chakra-ui/react";
+import { memo, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
 import { FooterLayout } from "../template/FooterLayout";
 
 export const Home = memo(() => {
   const navigate = useNavigate();
   const { userInfo, setUserInfo } = useContext(APIContext);
-  const location = useLocation();
 
   const onClickGPT = () => {
     navigate("/chatgpt");
