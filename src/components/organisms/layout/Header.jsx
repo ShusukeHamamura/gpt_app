@@ -39,7 +39,7 @@ export const Header = memo(() => {
             }}
             onClick={onClickHome}
           >
-            OpenAI
+            Star AI
           </Heading>
         </Flex>
         <Flex
@@ -52,9 +52,9 @@ export const Header = memo(() => {
             <Link onClick={onClickSetAPIKey}>APIキーの設定</Link>
           </Box>
           <Box pr={4}>
-            <Link onClick={onClickChatGPT}>ChatGPT</Link>
+            <Link onClick={onClickChatGPT}>AIチャットボット</Link>
           </Box>
-          <Link onClick={onClickDallE}>DALL E</Link>
+          <Link onClick={onClickDallE}>画像生成AI</Link>
         </Flex>
         {/* <MenuIconButton /> */}
       </Flex>

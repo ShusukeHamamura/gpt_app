@@ -5,9 +5,10 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Text,
 } from "@chakra-ui/react";
 import { memo, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
 import { useMessage } from "../hooks/useMessage";
 
@@ -26,7 +27,7 @@ export const APIKey = memo(() => {
   };
   return (
     <>
-      <Flex align="center" justify="center">
+      <Flex align="center" justify="center" py={6}>
         <Box py={3} w={["80%", "70%", "60%", "50%"]}>
           <InputGroup>
             <Input
@@ -43,6 +44,16 @@ export const APIKey = memo(() => {
           設定
         </Button>
       </Flex>
+      <Text align="center" justify="center">
+        OpenAI APIキー作成は
+        <a
+          target="_blank"
+          href="https://openai.com/blog/openai-api"
+          style={{ color: "#009999", hover: { color: "red" } }}
+        >
+          こちら
+        </a>
+      </Text>
     </>
   );
 });

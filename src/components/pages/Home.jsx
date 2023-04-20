@@ -1,12 +1,11 @@
 import { Badge, Box, Image, Wrap, WrapItem } from "@chakra-ui/react";
-import { memo, useContext } from "react";
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { APIContext } from "../../providers/APIProvider";
+import { Helmet } from "react-helmet";
 import { FooterLayout } from "../template/FooterLayout";
 
 export const Home = memo(() => {
   const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(APIContext);
 
   const onClickGPT = () => {
     navigate("/chatgpt");
@@ -16,11 +15,14 @@ export const Home = memo(() => {
   };
   return (
     <>
+      <Helmet>
+        <title>Star AI</title>
+      </Helmet>
       <Wrap
         p={{ base: 4, md: 10 }}
         align="center"
         justify="center"
-        bg="#000033"
+        bg="#CCFFFF"
       >
         <WrapItem mx="auto">
           <Box
@@ -37,7 +39,7 @@ export const Home = memo(() => {
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
-                  ChatGPT
+                  AIチャットボット
                 </Badge>
                 <Box
                   color="gray.500"
@@ -47,7 +49,7 @@ export const Home = memo(() => {
                   textTransform="uppercase"
                   ml="2"
                 >
-                  対話式AIモデル
+                  対話式AIモデル(gpt-3.5-turbo)
                 </Box>
               </Box>
             </Box>
@@ -68,7 +70,7 @@ export const Home = memo(() => {
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
-                  DALL E
+                  画像生成AI
                 </Badge>
                 <Box
                   color="gray.500"
@@ -78,7 +80,7 @@ export const Home = memo(() => {
                   textTransform="uppercase"
                   ml="2"
                 >
-                  AIによる画像生成モデル
+                  AIによる画像生成モデル(DALL E 2.0)
                 </Box>
               </Box>
             </Box>

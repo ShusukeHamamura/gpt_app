@@ -9,10 +9,12 @@ import {
   InputRightElement,
   Stack,
   Progress,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import { APIContext } from "../../providers/APIProvider";
 import { useMessage } from "../hooks/useMessage";
+import { _Modal } from "../molecules/_Modal";
 
 export const ChatGPT = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
@@ -21,6 +23,7 @@ export const ChatGPT = memo(() => {
   const [inputText, setInputText] = useState("");
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -33,7 +36,12 @@ export const ChatGPT = memo(() => {
   };
 
   const onClickEnd = () => {
+    setIsOpen(true);
+  };
+
+  const ResetTalk = () => {
     setMsg([]);
+    setIsOpen(false);
   };
 
   const getResponse = (message) => {
@@ -100,7 +108,7 @@ export const ChatGPT = memo(() => {
             let color = "";
             ms.role === "user" ? (color = "white") : (color = "gray.100");
             return (
-              <Box bg={color} key={index}>
+              <Box bg={color} key={index} style={{ whiteSpace: "pre-wrap" }}>
                 {ms.content}
               </Box>
             );
@@ -109,12 +117,20 @@ export const ChatGPT = memo(() => {
             <Progress size="sm" isIndeterminate colorScheme="green" />
           )}
           {msg.length === 0 || loading || (
-            <Button onClick={onClickEnd} bg="gray.500" color="white">
+            <Button
+              onClick={async () => {
+                onClickEnd();
+              }}
+              bg="gray.500"
+              color="white"
+              _hover={{ cursor: "pointer", opacity: 0.8, color: "red" }}
+            >
               会話を終了する
             </Button>
           )}
         </Stack>
       </Flex>
+      <_Modal isOpen={isOpen} setIsOpen={setIsOpen} option={ResetTalk} />
     </>
   );
 });

@@ -18,6 +18,7 @@ import {
   Wrap,
   WrapItem,
   CircularProgress,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { APIContext } from "../../providers/APIProvider";
@@ -75,35 +76,46 @@ export const DallE = memo(() => {
   return (
     <>
       <Flex align="center" justify="center">
-        <Box py={3} w={["80%", "70%", "60%", "50%"]}>
-          <InputGroup>
-            <Input
-              px={2}
-              type="text"
-              placeholder="生成したい画像について入力してください"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-            <InputRightElement width="4rem">
-              <NumberInput
-                defaultValue={1}
-                min={1}
-                max={4}
-                value={inputNum}
-                onChange={(value) => setInputNum(value)}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </InputRightElement>
-          </InputGroup>
+        <Box
+          py={3}
+          // w={["80%", "70%", "60%", "50%"]}
+          w={5000}
+          my={4}
+          maxW="sm"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+          shadow="md"
+        >
+          <Stack spacing={6} py={4} px={4}>
+            <InputGroup>
+              <Textarea
+                px={2}
+                type="text"
+                placeholder="生成したい画像について入力してください"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+              />
+            </InputGroup>
+            <NumberInput
+              w={"30%"}
+              defaultValue={1}
+              min={1}
+              max={4}
+              value={inputNum}
+              onChange={(value) => setInputNum(value)}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Button mx={2} h="2rem" size="sm" onClick={handleSubmit}>
+              生成
+            </Button>
+          </Stack>
         </Box>
-        <Button mx={2} h="2rem" size="sm" onClick={handleSubmit}>
-          生成
-        </Button>
       </Flex>
       <Flex px={6} align="center" justify="center">
         <Stack spacing={6} py={4} px={4}>
@@ -119,7 +131,10 @@ export const DallE = memo(() => {
             </>
           ) : (
             imgURL.length === 0 || (
-              <Text as="b">{`タイトル：「${showTitle}」`}</Text>
+              <Text
+                textAlign={"center"}
+                as="b"
+              >{`タイトル：「${showTitle}」`}</Text>
             )
           )}
           return (
