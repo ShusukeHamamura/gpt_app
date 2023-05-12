@@ -49,12 +49,12 @@ export const Header = memo(() => {
           // display={{ base: "none", sm: "flex" }}
         >
           <Box pr={4}>
-            <Link onClick={onClickSetAPIKey}>APIキーの設定</Link>
+            <Link onClick={onClickSetAPIKey}>設定</Link>
           </Box>
           <Box pr={4}>
-            <Link onClick={onClickChatGPT}>AIチャットボット</Link>
+            <Link onClick={onClickChatGPT}>チャットボット</Link>
           </Box>
-          <Link onClick={onClickDallE}>画像生成AI</Link>
+          <Link onClick={onClickDallE}>画像生成</Link>
         </Flex>
         {/* <MenuIconButton /> */}
       </Flex>

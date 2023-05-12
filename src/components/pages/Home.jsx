@@ -39,7 +39,7 @@ export const Home = memo(() => {
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
-                  AIチャットボット
+                  チャットボット
                 </Badge>
                 <Box
                   color="gray.500"
@@ -70,7 +70,7 @@ export const Home = memo(() => {
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
-                  画像生成AI
+                  画像生成
                 </Badge>
                 <Box
                   color="gray.500"

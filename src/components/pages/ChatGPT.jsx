@@ -19,7 +19,7 @@ import { _Modal } from "../molecules/_Modal";
 
 export const ChatGPT = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
-  const { userInfo } = useContext(APIContext);
+  const { userInfo, language, rate, pitch } = useContext(APIContext);
   const { showMessage } = useMessage();
   const [inputText, setInputText] = useState("");
   const [msg, setMsg] = useState([]);
@@ -27,32 +27,10 @@ export const ChatGPT = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVoice, setIsVoice] = useState(false);
 
-  // const speech = new Speech();
-  // speech
-  //   .init({
-  //     volume: 1,
-  //     lang: "ja-JP",
-  //     rate: 2,
-  //     pitch: 1,
-  //     // voice: "'Fiona'",
-  //     splitSentences: true,
-  //     listeners: {
-  //       onvoiceschanged: (voices) => {
-  //         console.log("Event voiceschanged", voices);
-  //       },
-  //     },
-  //   })
-  //   .then((data) => {
-  //     console.log("Speech is ready, voices are available", data);
-  //   })
-  //   .catch((e) => {
-  //     console.error("An error occured while initializing : ", e);
-  //   });
-  // speechSynthesis.cancel();
   const uttr = new SpeechSynthesisUtterance();
-  uttr.lang = "ja-JP";
-  uttr.rate = 1;
-  uttr.pitch = 1.5;
+  uttr.lang = language;
+  uttr.rate = 10 * (rate * 0.01);
+  uttr.pitch = 2 * (pitch * 0.01);
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -67,7 +45,8 @@ export const ChatGPT = memo(() => {
   const onClickOnVoice = () => {
     setIsVoice(!isVoice);
     if (!isVoice) {
-      uttr.text = "音声をオンにしました";
+      if (language === "ja-JP") uttr.text = "音声をオンにしました";
+      else if (language === "en-US") uttr.text = "Voice turned on";
       window.speechSynthesis.speak(uttr);
     }
   };
@@ -105,16 +84,6 @@ export const ChatGPT = memo(() => {
         .then((res) => {
           let ans = res.data["choices"][0]["message"]["content"];
           setMsg((oldMsg) => [...oldMsg, { role: "assistant", content: ans }]);
-          // speech
-          //   .speak({
-          //     text: ans,
-          //   })
-          //   .then(() => {
-          //     alert("OK");
-          //   })
-          //   .catch((e) => {
-          //     alert("NO");
-          //   });
           if (isVoice) {
             uttr.text = ans;
             window.speechSynthesis.speak(uttr);
