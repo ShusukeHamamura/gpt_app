@@ -68,6 +68,13 @@ export const ChatGPT = memo(() => {
     setIsVoice(!isVoice);
   };
 
+  const onClickIOSVoice = () => {
+    if (isVoice) {
+      uttr.text = msg[msg.length - 1].content;
+      window.speechSynthesis.speak(uttr);
+    }
+  };
+
   const onClickEnd = () => {
     setIsOpen(true);
   };
@@ -189,16 +196,29 @@ export const ChatGPT = memo(() => {
             <Progress size="sm" isIndeterminate colorScheme="green" />
           )}
           {msg.length === 0 || loading || (
-            <Button
-              onClick={async () => {
-                onClickEnd();
-              }}
-              bg="gray.500"
-              color="white"
-              _hover={{ cursor: "pointer", opacity: 0.8, color: "red" }}
-            >
-              会話を終了する
-            </Button>
+            <>
+              <Button
+                h="1.75rem"
+                w="10rem"
+                size="xs"
+                mx={4}
+                variant="outline"
+                _hover={{ color: "red" }}
+                onClick={onClickIOSVoice}
+              >
+                音声読み上げ(IOS用)
+              </Button>
+              <Button
+                onClick={async () => {
+                  onClickEnd();
+                }}
+                bg="gray.500"
+                color="white"
+                _hover={{ cursor: "pointer", opacity: 0.8, color: "red" }}
+              >
+                会話を終了する
+              </Button>
+            </>
           )}
         </Stack>
       </Flex>
