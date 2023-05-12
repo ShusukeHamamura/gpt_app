@@ -51,8 +51,8 @@ export const ChatGPT = memo(() => {
   // speechSynthesis.cancel();
   const uttr = new SpeechSynthesisUtterance();
   uttr.lang = "ja-JP";
-  uttr.rate = 1.8;
-  uttr.pitch = 1;
+  uttr.rate = 0.8;
+  uttr.pitch = 1.5;
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
