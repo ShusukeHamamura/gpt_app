@@ -52,7 +52,7 @@ export const ChatGPT = memo(() => {
   const uttr = new SpeechSynthesisUtterance();
   uttr.lang = "ja-JP";
   uttr.rate = 1.8;
-  uttr.pitch = 1.5;
+  uttr.pitch = 1;
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -66,6 +66,10 @@ export const ChatGPT = memo(() => {
 
   const onClickVoice = () => {
     setIsVoice(!isVoice);
+    if (isVoice && msg.length != 0) {
+      uttr.text = msg[msg.length - 1].content;
+      window.speechSynthesis.speak(uttr);
+    }
   };
 
   const onClickIOSVoice = () => {
