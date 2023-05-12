@@ -64,19 +64,16 @@ export const ChatGPT = memo(() => {
     }
   };
 
-  const onClickVoice = () => {
+  const onClickOnVoice = () => {
     setIsVoice(!isVoice);
-    if (isVoice && msg.length != 0) {
-      uttr.text = msg[msg.length - 1].content;
+    if (!isVoice) {
+      uttr.text = "音声をオンにしました";
       window.speechSynthesis.speak(uttr);
     }
   };
-
-  const onClickIOSVoice = () => {
-    if (isVoice) {
-      uttr.text = msg[msg.length - 1].content;
-      window.speechSynthesis.speak(uttr);
-    }
+  const onClickOffVoice = () => {
+    setIsVoice(!isVoice);
+    speechSynthesis.cancel();
   };
 
   const onClickEnd = () => {
@@ -150,7 +147,7 @@ export const ChatGPT = memo(() => {
             bgColor={"red"}
             color={"white"}
             _hover={{ fontWeight: "bold" }}
-            onClick={onClickVoice}
+            onClick={onClickOffVoice}
           >
             音声ON
           </Button>
@@ -162,7 +159,7 @@ export const ChatGPT = memo(() => {
             bgColor={"blue"}
             color={"white"}
             _hover={{ fontWeight: "bold" }}
-            onClick={onClickVoice}
+            onClick={onClickOnVoice}
           >
             音声OFF
           </Button>
@@ -201,17 +198,6 @@ export const ChatGPT = memo(() => {
           )}
           {msg.length === 0 || loading || (
             <>
-              <Button
-                h="1.75rem"
-                w="10rem"
-                size="xs"
-                mx={4}
-                variant="outline"
-                _hover={{ color: "red" }}
-                onClick={onClickIOSVoice}
-              >
-                音声読み上げ(IOS用)
-              </Button>
               <Button
                 onClick={async () => {
                   onClickEnd();
