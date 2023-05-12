@@ -50,11 +50,7 @@ export const ChatGPT = memo(() => {
   //   });
   // speechSynthesis.cancel();
   const uttr = new SpeechSynthesisUtterance();
-  var voice = speechSynthesis.getVoices().find((voice) => {
-    return voice.name === "Google 日本語";
-  });
-  if (voice) uttr.voice = voice;
-  // uttr.lang = "ja-JP";
+  uttr.lang = "ja-JP";
   uttr.rate = 1.8;
   uttr.pitch = 1.5;
 
