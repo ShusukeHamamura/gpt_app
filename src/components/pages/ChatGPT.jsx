@@ -1,5 +1,6 @@
-import { memo, useContext, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Speech from "speak-tts";
 import {
   Input,
   Flex,
@@ -24,6 +25,34 @@ export const ChatGPT = memo(() => {
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const speech = new Speech();
+  speech
+    .init({
+      volume: 1,
+      lang: "ja-JP",
+      rate: 2,
+      pitch: 1,
+      // voice: "'Fiona'",
+      splitSentences: true,
+      listeners: {
+        onvoiceschanged: (voices) => {
+          console.log("Event voiceschanged", voices);
+        },
+      },
+    })
+    .then((data) => {
+      console.log("Speech is ready, voices are available", data);
+    })
+    .catch((e) => {
+      console.error("An error occured while initializing : ", e);
+    });
+
+  // const uttr = new SpeechSynthesisUtterance();
+  // var voice = speechSynthesis.getVoices().find((voice) => {
+  //   return voice.name === "Google 日本語";
+  // });
+  // if (voice) uttr.voice = voice;
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -64,6 +93,18 @@ export const ChatGPT = memo(() => {
         .then((res) => {
           let ans = res.data["choices"][0]["message"]["content"];
           setMsg((oldMsg) => [...oldMsg, { role: "assistant", content: ans }]);
+          speech
+            .speak({
+              text: ans,
+            })
+            .then(() => {
+              alert("OK");
+            })
+            .catch((e) => {
+              alert("NO");
+            });
+          // uttr.text = ans;
+          // window.speechSynthesis.speak(uttr);
           setLoading(false);
           if (res.data["usage"]["total_tokens"] > 3000) {
             msg.shift();
@@ -84,6 +125,9 @@ export const ChatGPT = memo(() => {
         position="sticky"
         zIndex={"sticky"}
       >
+        <Button h="1.75rem" size="sm" mx={4}>
+          音声ON
+        </Button>
         <Box py={3} w={["80%", "70%", "60%", "50%"]}>
           <InputGroup>
             <Input
