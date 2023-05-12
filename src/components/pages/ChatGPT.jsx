@@ -1,6 +1,8 @@
 import { memo, useContext, useEffect, useState } from "react";
 import axios from "axios";
-import Speech from "speak-tts";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import {
   Input,
   Flex,
@@ -11,7 +13,10 @@ import {
   Stack,
   Progress,
   useDisclosure,
+  CircularProgress,
+  IconButton,
 } from "@chakra-ui/react";
+import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 
 import { APIContext } from "../../providers/APIProvider";
 import { useMessage } from "../hooks/useMessage";
@@ -26,11 +31,22 @@ export const ChatGPT = memo(() => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isVoice, setIsVoice] = useState(false);
+  const [isInputVoice, setIsInputVoice] = useState(true);
 
   const uttr = new SpeechSynthesisUtterance();
   uttr.lang = language;
   uttr.rate = 10 * (rate * 0.01);
   uttr.pitch = 2 * (pitch * 0.01);
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -62,6 +78,17 @@ export const ChatGPT = memo(() => {
   const ResetTalk = () => {
     setMsg([]);
     setIsOpen(false);
+  };
+
+  const startListening = () => {
+    setIsInputVoice(!isInputVoice);
+    if (isInputVoice) {
+      SpeechRecognition.startListening({ continuous: true });
+      resetTranscript();
+    } else {
+      SpeechRecognition.stopListening();
+      setInputText(transcript);
+    }
   };
 
   const getResponse = (message) => {
@@ -107,6 +134,7 @@ export const ChatGPT = memo(() => {
         top={0}
         position="sticky"
         zIndex={"sticky"}
+        mt={5}
       >
         {isVoice ? (
           <Button
@@ -134,22 +162,48 @@ export const ChatGPT = memo(() => {
           </Button>
         )}
         <Box py={3} w={["80%", "70%", "60%", "50%"]}>
-          <InputGroup>
-            <Input
-              px={2}
-              bg="white"
-              type="text"
-              placeholder="メッセージを入力"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={handleSubmit}>
-                送信
-              </Button>
-            </InputRightElement>
-          </InputGroup>
+          {isInputVoice ? (
+            <InputGroup>
+              <Input
+                px={2}
+                bg="white"
+                type="text"
+                placeholder="メッセージを入力"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+              />
+            </InputGroup>
+          ) : (
+            <Progress px={2} size="xs" isIndeterminate />
+          )}
         </Box>
+        {isInputVoice ? (
+          <IconButton
+            variant="outline"
+            colorScheme="teal"
+            aria-label="Call Sage"
+            size="sm"
+            fontSize="10px"
+            mx={4}
+            as={AiOutlineAudio}
+            onClick={startListening}
+          />
+        ) : (
+          <IconButton
+            variant="outline"
+            colorScheme="teal"
+            aria-label="Call Sage"
+            size="sm"
+            fontSize="10px"
+            mx={4}
+            as={AiOutlineAudioMuted}
+            onClick={startListening}
+          />
+        )}
+
+        <Button h="2rem" size="sm" onClick={handleSubmit}>
+          送信
+        </Button>
       </Flex>
       <Flex px={6} align="center" justify="center">
         <Stack spacing={6} py={4} px={4}>
