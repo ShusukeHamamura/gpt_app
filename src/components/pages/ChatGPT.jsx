@@ -25,34 +25,34 @@ export const ChatGPT = memo(() => {
   const [msg, setMsg] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isVoice, setIsVoice] = useState(false);
 
-  const speech = new Speech();
-  speech
-    .init({
-      volume: 1,
-      lang: "ja-JP",
-      rate: 2,
-      pitch: 1,
-      // voice: "'Fiona'",
-      splitSentences: true,
-      listeners: {
-        onvoiceschanged: (voices) => {
-          console.log("Event voiceschanged", voices);
-        },
-      },
-    })
-    .then((data) => {
-      console.log("Speech is ready, voices are available", data);
-    })
-    .catch((e) => {
-      console.error("An error occured while initializing : ", e);
-    });
-
-  // const uttr = new SpeechSynthesisUtterance();
-  // var voice = speechSynthesis.getVoices().find((voice) => {
-  //   return voice.name === "Google 日本語";
-  // });
-  // if (voice) uttr.voice = voice;
+  // const speech = new Speech();
+  // speech
+  //   .init({
+  //     volume: 1,
+  //     lang: "ja-JP",
+  //     rate: 2,
+  //     pitch: 1,
+  //     // voice: "'Fiona'",
+  //     splitSentences: true,
+  //     listeners: {
+  //       onvoiceschanged: (voices) => {
+  //         console.log("Event voiceschanged", voices);
+  //       },
+  //     },
+  //   })
+  //   .then((data) => {
+  //     console.log("Speech is ready, voices are available", data);
+  //   })
+  //   .catch((e) => {
+  //     console.error("An error occured while initializing : ", e);
+  //   });
+  // speechSynthesis.cancel();
+  const uttr = new SpeechSynthesisUtterance();
+  uttr.lang = "ja-JP";
+  uttr.rate = 1.8;
+  uttr.pitch = 1.5;
 
   const handleSubmit = async () => {
     if (userInfo.userAPIKey === "") {
@@ -62,6 +62,10 @@ export const ChatGPT = memo(() => {
       setInputText("");
       const response = await getResponse(inputText);
     }
+  };
+
+  const onClickVoice = () => {
+    setIsVoice(!isVoice);
   };
 
   const onClickEnd = () => {
@@ -93,18 +97,20 @@ export const ChatGPT = memo(() => {
         .then((res) => {
           let ans = res.data["choices"][0]["message"]["content"];
           setMsg((oldMsg) => [...oldMsg, { role: "assistant", content: ans }]);
-          speech
-            .speak({
-              text: ans,
-            })
-            .then(() => {
-              alert("OK");
-            })
-            .catch((e) => {
-              alert("NO");
-            });
-          // uttr.text = ans;
-          // window.speechSynthesis.speak(uttr);
+          // speech
+          //   .speak({
+          //     text: ans,
+          //   })
+          //   .then(() => {
+          //     alert("OK");
+          //   })
+          //   .catch((e) => {
+          //     alert("NO");
+          //   });
+          if (isVoice) {
+            uttr.text = ans;
+            window.speechSynthesis.speak(uttr);
+          }
           setLoading(false);
           if (res.data["usage"]["total_tokens"] > 3000) {
             msg.shift();
@@ -125,9 +131,31 @@ export const ChatGPT = memo(() => {
         position="sticky"
         zIndex={"sticky"}
       >
-        <Button h="1.75rem" size="sm" mx={4}>
-          音声ON
-        </Button>
+        {isVoice ? (
+          <Button
+            h="1.75rem"
+            size="xs"
+            mx={4}
+            bgColor={"red"}
+            color={"white"}
+            _hover={{ fontWeight: "bold" }}
+            onClick={onClickVoice}
+          >
+            音声ON
+          </Button>
+        ) : (
+          <Button
+            h="1.75rem"
+            size="xs"
+            mx={4}
+            bgColor={"blue"}
+            color={"white"}
+            _hover={{ fontWeight: "bold" }}
+            onClick={onClickVoice}
+          >
+            音声OFF
+          </Button>
+        )}
         <Box py={3} w={["80%", "70%", "60%", "50%"]}>
           <InputGroup>
             <Input

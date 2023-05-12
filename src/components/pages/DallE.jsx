@@ -101,7 +101,7 @@ export const DallE = memo(() => {
               w={"30%"}
               defaultValue={1}
               min={1}
-              max={4}
+              max={5}
               value={inputNum}
               onChange={(value) => setInputNum(value)}
             >
