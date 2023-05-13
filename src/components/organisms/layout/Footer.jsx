@@ -15,7 +15,7 @@ export const Footer = memo(() => {
         <Flex align="center" as="a" mr={8}>
           <Stack>
             <Heading fontSize={{ base: "xl", md: "4xl" }}>
-              Star AI <small>Ver 2.00</small>
+              Star AI <small>Ver 2.10</small>
             </Heading>
             <Heading
               fontSize={{ base: "sm", md: "lg" }}
