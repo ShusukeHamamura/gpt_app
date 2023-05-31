@@ -30,7 +30,6 @@ import {
 import { memo, useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
-// import { VoiceContext } from "../../providers/VoiceProvider";
 import { useMessage } from "../hooks/useMessage";
 import { HeaderLayout } from "../template/HeaderLayout";
 
@@ -81,7 +80,10 @@ export const APIKey = memo(() => {
                     placeholder="API KEYを入力してください"
                     value={userInfo.userAPIKey}
                     onChange={(e) =>
-                      setUserInfo({ userAPIKey: e.target.value })
+                      setUserInfo({
+                        userID: userInfo.userID,
+                        userAPIKey: e.target.value,
+                      })
                     }
                   />
                   <InputRightElement width="4.5rem"></InputRightElement>

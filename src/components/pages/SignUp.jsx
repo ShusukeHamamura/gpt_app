@@ -9,7 +9,11 @@ export const SignUp = memo(() => {
   //   });
   useEffect(() => {
     axios.get("http://localhost:3001/db/UserData/userdata").then((res) => {
-      console.log(res.data);
+      console.log(res.data[res.data.length - 1].id); //最後のidを取得
+      const useridList = res.data.map((val) => {
+        return val.userid;
+      });
+      console.log(useridList); //useridのリストを取得
     });
   }, []);
 
