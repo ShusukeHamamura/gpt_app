@@ -106,7 +106,8 @@ export const Login = memo(() => {
             >
               ログイン
             </PrimaryButton>
-            <Link onClick={onClickSignUp}>Sign up</Link>
+            {/* <Link onClick={onClickSignUp}>Sign up</Link> */}
+            <Link href="/SignUp">Sign up</Link>
           </Stack>
         </Box>
       </Flex>
