@@ -3,6 +3,7 @@ import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FooterLayout } from "../template/FooterLayout";
+import { HeaderLayout } from "../template/HeaderLayout";
 
 export const Home = memo(() => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export const Home = memo(() => {
   };
   return (
     <>
+      <HeaderLayout />
       <Helmet>
         <title>Star AI</title>
       </Helmet>

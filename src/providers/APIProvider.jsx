@@ -4,7 +4,10 @@ export const APIContext = createContext({});
 
 export const APIProvider = (props) => {
   const { children } = props;
-  const [userInfo, setUserInfo] = useState({ userAPIKey: "" });
+  const [userInfo, setUserInfo] = useState({
+    userID: "",
+    userAPIKey: "",
+  });
   const [language, setLanguage] = useState("ja-JP");
   const [rate, setRate] = useState(30);
   const [pitch, setPitch] = useState(75);

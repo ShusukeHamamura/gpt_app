@@ -21,6 +21,7 @@ import { AiOutlineAudio, AiOutlineAudioMuted } from "react-icons/ai";
 import { APIContext } from "../../providers/APIProvider";
 import { useMessage } from "../hooks/useMessage";
 import { _Modal } from "../molecules/_Modal";
+import { HeaderLayout } from "../template/HeaderLayout";
 
 export const ChatGPT = memo(() => {
   const URL = "https://api.openai.com/v1/chat/completions";
@@ -128,6 +129,7 @@ export const ChatGPT = memo(() => {
 
   return (
     <>
+      <HeaderLayout />
       <Flex
         align="center"
         justify="center"

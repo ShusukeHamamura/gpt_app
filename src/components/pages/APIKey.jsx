@@ -32,6 +32,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { APIContext } from "../../providers/APIProvider";
 // import { VoiceContext } from "../../providers/VoiceProvider";
 import { useMessage } from "../hooks/useMessage";
+import { HeaderLayout } from "../template/HeaderLayout";
 
 export const APIKey = memo(() => {
   const { showMessage } = useMessage();
@@ -63,6 +64,7 @@ export const APIKey = memo(() => {
   };
   return (
     <>
+      <HeaderLayout />
       <Tabs px={4} py={4}>
         <TabList>
           <Tab>APIキーの設定</Tab>

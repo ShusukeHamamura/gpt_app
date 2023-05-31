@@ -1,11 +1,14 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, Spacer } from "@chakra-ui/react";
+import { useContext } from "react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import { APIContext } from "../../../providers/APIProvider";
 
 export const Header = memo(() => {
+  const { userInfo } = useContext(APIContext);
   const navigate = useNavigate();
   const onClickHome = () => {
-    navigate("/");
+    navigate("/home");
   };
   const onClickSetAPIKey = () => {
     navigate("/apikey");
@@ -54,7 +57,11 @@ export const Header = memo(() => {
           <Box pr={4}>
             <Link onClick={onClickChatGPT}>チャットボット</Link>
           </Box>
-          <Link onClick={onClickDallE}>画像生成</Link>
+          <Box pr={4}>
+            <Link onClick={onClickDallE}>画像生成</Link>
+          </Box>
+          <Spacer />
+          <Box pr={4}>{`こんにちは、${userInfo.userID} さん`}</Box>
         </Flex>
         {/* <MenuIconButton /> */}
       </Flex>

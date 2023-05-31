@@ -24,6 +24,7 @@ import {
 
 import { APIContext } from "../../providers/APIProvider";
 import { useMessage } from "../hooks/useMessage";
+import { HeaderLayout } from "../template/HeaderLayout";
 
 export const DallE = memo(() => {
   const URL = "https://api.openai.com/v1/images/generations";
@@ -76,6 +77,7 @@ export const DallE = memo(() => {
 
   return (
     <div>
+      <HeaderLayout />
       <Flex align="center" justify="center">
         <Stack spacing={6} my={4} mx={4} w={"80%"}>
           <InputGroup>
