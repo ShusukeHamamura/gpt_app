@@ -61,6 +61,10 @@ export const APIKey = memo(() => {
       status: "success",
     });
   };
+
+  const onClickLogout = () => {
+    navigate("/");
+  };
   return (
     <>
       <HeaderLayout />
@@ -68,6 +72,7 @@ export const APIKey = memo(() => {
         <TabList>
           <Tab>APIキーの設定</Tab>
           <Tab>音声設定</Tab>
+          <Tab>ユーザー設定</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -181,6 +186,23 @@ export const APIKey = memo(() => {
               onClick={onClickVoice}
             >
               保存
+            </Button>
+          </TabPanel>
+          <TabPanel>
+            <Flex align="center" justify="center">
+              <Box py={3} w={["80%", "70%", "60%", "50%"]}>
+                {userInfo.id}
+                {userInfo.userID}
+                {userInfo.password}
+              </Box>
+            </Flex>
+            <Button
+              mx={2}
+              align="center"
+              justify="center"
+              onClick={onClickLogout}
+            >
+              ログアウト
             </Button>
           </TabPanel>
         </TabPanels>

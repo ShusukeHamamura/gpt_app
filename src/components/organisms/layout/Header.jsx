@@ -19,6 +19,9 @@ export const Header = memo(() => {
   const onClickDallE = () => {
     navigate("/dalle");
   };
+  const onClickUserManagement = () => {
+    navigate("/UserManagement");
+  };
   return (
     <>
       <Flex
@@ -61,7 +64,13 @@ export const Header = memo(() => {
             <Link onClick={onClickDallE}>画像生成</Link>
           </Box>
           <Spacer />
-          <Box pr={4}>{`こんにちは、${userInfo.userID} さん`}</Box>
+          <Box pr={4}>
+            {userInfo.id === 1 ? (
+              <Link onClick={onClickUserManagement}>{`管理者ページ`}</Link>
+            ) : (
+              <>{`こんにちは、${userInfo.userID} さん`}</>
+            )}
+          </Box>
         </Flex>
         {/* <MenuIconButton /> */}
       </Flex>

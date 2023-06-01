@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ChatGPT } from "../components/pages/ChatGPT";
 import { Home } from "../components/pages/Home";
+import { UserManagement } from "../components/pages/UserManagement";
 import { Login } from "../components/pages/Login";
 import { HeaderLayout } from "../components/template/HeaderLayout";
 import { DallE } from "../components/pages/DallE";
@@ -16,6 +17,8 @@ export const Router = memo(() => {
         <Route path={"/"} element={<Login />}></Route>
         <Route path={"/SignUp"} element={<SignUp />}></Route>
         <Route path={"/Home"} element={<Home />}></Route>
+        <Route path={"/UserManagement"} element={<UserManagement />}></Route>
+        UserManagement
         <Route path={"/chatgpt"} element={<ChatGPT />}></Route>
         <Route path={"/dalle"} element={<DallE />}></Route>
         <Route path={"/apikey"} element={<APIKey />}></Route>

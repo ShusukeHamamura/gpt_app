@@ -18,7 +18,11 @@ export const useAuth = () => {
       const user = UserData.find((user) => user.userid === id);
       if (user !== undefined) {
         if (user["password"] === password) {
-          setUserInfo({ userID: user["userid"] });
+          setUserInfo({
+            id: user["id"],
+            userID: user["userid"],
+            password: user["password"],
+          });
           navigate("/home");
           showMessage({ title: "ログインしました", status: "success" });
         } else {

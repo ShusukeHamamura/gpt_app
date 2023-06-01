@@ -5,7 +5,9 @@ export const APIContext = createContext({});
 export const APIProvider = (props) => {
   const { children } = props;
   const [userInfo, setUserInfo] = useState({
+    id: "",
     userID: "",
+    password: "",
     userAPIKey: "",
   });
   const [language, setLanguage] = useState("ja-JP");
