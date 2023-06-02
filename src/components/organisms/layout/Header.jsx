@@ -31,9 +31,6 @@ export const Header = memo(() => {
         align="center"
         justify="space-between"
         padding={{ base: 3, md: 5 }}
-        // top={0}
-        // position="sticky"
-        // zIndex={"sticky"}
       >
         <Flex align="center" as="a" mr={8} _hover={{ cursor: "pointer" }}>
           <Heading
