@@ -3,49 +3,42 @@ import { useContext } from "react";
 
 import { useMessage } from "./useMessage";
 import { APIContext } from "../../providers/APIProvider";
-import UserData from "../../UserData.json";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import axios from "axios";
 
 export const useAuth = () => {
   const navigate = useNavigate();
   const { showMessage } = useMessage();
-  const { userInfo, setUserInfo } = useContext(APIContext);
+  const { setUserInfo } = useContext(APIContext);
 
   const [loading, setLoading] = useState(false);
 
-  const is_json_server = false;
-
-  useEffect(() => {
-    if (is_json_server) {
-      axios.get("http://localhost:3001/db/UserData/userdata").then((res) => {
-        UserData = res.data;
-      });
-    }
-  }, []);
-
   const login = useCallback(
     (id, password) => {
-      const user = UserData.find((user) => user.userid === id);
-      if (user !== undefined) {
-        if (user["password"] === password) {
-          setUserInfo({
-            id: user["id"],
-            userID: user["userid"],
-            password: user["password"],
-          });
-          navigate("/home");
-          showMessage({ title: "ログインしました", status: "success" });
-        } else {
-          showMessage({ title: "パスワードが違います", status: "error" });
-        }
-      } else {
-        showMessage({ title: "ユーザーIDが違います", status: "error" });
-      }
+      axios
+        .post("http://localhost:3001/api", {
+          userid: id,
+          password: password,
+        })
+        .then((res) => {
+          const isUser = res.data;
+          console.log(isUser);
+          if (isUser === "not user") {
+            showMessage({ title: "ユーザーIDが違います", status: "error" });
+          } else if (isUser === "not password") {
+            showMessage({ title: "パスワードが違います", status: "error" });
+          } else {
+            setUserInfo({
+              userID: id,
+              password: password,
+            });
+            navigate("/home");
+            showMessage({ title: "ログインしました", status: "success" });
+          }
+        });
       setLoading(true);
     },
-    [showMessage]
+    [showMessage, setUserInfo, navigate]
   );
   return { login, loading };
 };

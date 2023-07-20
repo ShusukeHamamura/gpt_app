@@ -13,14 +13,8 @@ import {
   TabPanel,
   Select,
   Stack,
-  NumberInput,
-  NumberInputStepper,
-  NumberInputField,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   UnorderedList,
   ListItem,
-  List,
   Slider,
   SliderTrack,
   SliderFilledTrack,
@@ -56,14 +50,16 @@ export const APIKey = memo(() => {
     pitch,
     setPitch,
   } = useContext(APIContext);
+  const [apikey, setApikey] = useState(userInfo.userAPIKey);
   const [newUserId, setNewUserId] = useState("");
   const { changeUserId } = useUserSetting();
   const navigate = useNavigate();
 
   const onClickAPIKey = () => {
-    if (userInfo.userAPIKey === "") {
+    if (apikey === "") {
       showMessage({ title: "APIキーを入力してください", status: "error" });
     } else {
+      setUserInfo({ ...userInfo, userAPIKey: apikey });
       showMessage({ title: "APIキーを設定しました", status: "success" });
     }
   };
@@ -102,13 +98,8 @@ export const APIKey = memo(() => {
                     px={2}
                     type="password"
                     placeholder="API KEYを入力してください"
-                    value={userInfo.userAPIKey}
-                    onChange={(e) =>
-                      setUserInfo({
-                        userID: userInfo.userID,
-                        userAPIKey: e.target.value,
-                      })
-                    }
+                    value={apikey}
+                    onChange={(e) => setApikey(e.target.value)}
                   />
                   <InputRightElement width="4.5rem"></InputRightElement>
                 </InputGroup>
