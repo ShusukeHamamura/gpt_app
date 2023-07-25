@@ -17,5 +17,5 @@ export const SignUp = memo(() => {
     });
   }, []);
 
-  return <>test page</>;
+  return;
 });

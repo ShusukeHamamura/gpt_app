@@ -22,10 +22,12 @@ import { useState } from "react";
 import { memo } from "react";
 import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useAuth } from "../hooks/useAuth";
+import { useSignup } from "../hooks/useSignup";
 
 export const Login = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { login, loading } = useAuth();
+  const { signup } = useSignup();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [signUp, setSignUp] = useState(false);
@@ -42,6 +44,12 @@ export const Login = memo(() => {
   };
   const onClickSignUp = () => {
     setSignUp(true);
+  };
+  const onClickCreateAccount = () => {
+    signup(newUserId, newPassword);
+    setNewUserId("");
+    setNewPassword("");
+    setSignUp(false);
   };
   const onClickSignUpCancel = () => {
     setSignUp(false);
@@ -75,7 +83,7 @@ export const Login = memo(() => {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3} onClick={onClickCreateAccount}>
               作成
             </Button>
             <Button onClick={onClickSignUpCancel}>キャンセル</Button>
@@ -106,8 +114,8 @@ export const Login = memo(() => {
             >
               ログイン
             </PrimaryButton>
-            {/* <Link onClick={onClickSignUp}>Sign up</Link> */}
-            <Link href="/SignUp">Sign up</Link>
+            <Link onClick={onClickSignUp}>Sign up</Link>
+            {/* <Link href="/SignUp">Sign up</Link> */}
           </Stack>
         </Box>
       </Flex>

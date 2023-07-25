@@ -1,12 +1,26 @@
 import { Box, Flex, Heading, Link, Spacer } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { APIContext } from "../../../providers/APIProvider";
+import { useMessage } from "../../hooks/useMessage";
 
 export const Header = memo(() => {
   const { userInfo } = useContext(APIContext);
   const navigate = useNavigate();
+
+  const { showMessage } = useMessage();
+
+  useEffect(() => {
+    if (userInfo.id === "") {
+      showMessage({
+        title: "予期しない操作です。ログアウトしました。",
+        status: "error",
+      });
+      navigate("/");
+    }
+  });
+
   const onClickHome = () => {
     navigate("/home");
   };

@@ -16,7 +16,7 @@ export const useAuth = () => {
   const login = useCallback(
     (id, password) => {
       axios
-        .post("http://localhost:3001/api", {
+        .post("http://localhost:3001/api/login", {
           userid: id,
           password: password,
         })
@@ -24,11 +24,12 @@ export const useAuth = () => {
           const isUser = res.data;
           console.log(isUser);
           if (isUser === "not user") {
-            showMessage({ title: "ユーザーIDが違います", status: "error" });
+            showMessage({ title: "存在しないユーザーIDです", status: "error" });
           } else if (isUser === "not password") {
             showMessage({ title: "パスワードが違います", status: "error" });
           } else {
             setUserInfo({
+              id: res.data.id,
               userID: id,
               password: password,
             });

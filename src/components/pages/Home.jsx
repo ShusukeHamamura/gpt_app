@@ -1,9 +1,13 @@
 import { Badge, Box, Image, Wrap, WrapItem } from "@chakra-ui/react";
 import { memo } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FooterLayout } from "../template/FooterLayout";
 import { HeaderLayout } from "../template/HeaderLayout";
+import image1 from "../../images/chatgpt.png";
+import image2 from "../../images/dalle.png";
+import { APIContext } from "../../providers/APIProvider";
 
 export const Home = memo(() => {
   const navigate = useNavigate();
@@ -37,7 +41,7 @@ export const Home = memo(() => {
             _hover={{ cursor: "pointer", opacity: 0.8 }}
             onClick={onClickGPT}
           >
-            <Image src="/images/chatgpt.png" />
+            <Image src={image1} />
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
@@ -68,7 +72,7 @@ export const Home = memo(() => {
             _hover={{ cursor: "pointer", opacity: 0.8 }}
             onClick={onClickDallE}
           >
-            <Image src="/images/dalle.png" />
+            <Image src={image2} />
             <Box p={4} bg="white">
               <Box display="flex" alignItems="baseline">
                 <Badge borderRadius="full" px="2" colorScheme="teal">
